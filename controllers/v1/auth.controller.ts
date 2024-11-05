@@ -19,9 +19,10 @@ import { IUserDocument } from "../../models/users.schema";
 interface IAuthDocument {
   userId: number;
   username: string;
+  phoneNumber: string;
   email: string;
   password: string;
-  address: string;
+  address?: string;
   isActive?: boolean;
   token?: string;
 }
@@ -38,13 +39,13 @@ export class AuthController {
           .json({ error: true, message: error.details[0].message });
       }
 
-      const { username, email, password, address } = req.body;
+      const { username, phoneNumber, email, password } = req.body;
       const checkIfUserExist: IAuthDocument | undefined = await getUserByEmail(
         email
       );
 
       if (checkIfUserExist) {
-        return res.status(StatusCodes.OK).json({
+        return res.status(StatusCodes.BAD_REQUEST).json({
           error: true,
           message: messageHelper.EMAIL_EXISTS,
         });
@@ -56,7 +57,7 @@ export class AuthController {
         username: firstLetterUppercase(username),
         email: lowerCase(email),
         password: hashed_password,
-        address,
+        phoneNumber,
       } as IAuthDocument;
 
       const user: IAuthDocument = (await createAuthUser(
@@ -94,6 +95,7 @@ export class AuthController {
     const existingUser: IUserDocument | undefined = await getUserByEmail(email);
     if (!existingUser) {
       return res.status(404).json({
+        error: true,
         message: messageHelper.USER_NOT_FOUND,
       });
     }
@@ -104,6 +106,7 @@ export class AuthController {
 
     if (!passwordsMatch) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
+        error: true,
         message: messageHelper.INVALID_CREDENTIALS,
       });
     }

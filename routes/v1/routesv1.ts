@@ -11,6 +11,6 @@ export const appRoutes = (app: Application): void => {
   app.use(BASE_PATH, authRoutes.routes());
 
   //Protected Routes
-  app.use(middleware.verifyUser);
+  app.use(middleware.verifyUser); //JWT Authentication
   app.use(BASE_PATH, pizzaRoutes.routes());
 };

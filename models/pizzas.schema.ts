@@ -50,7 +50,7 @@ PizzaModel.init(
       unique: true,
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     imageUrl: {
@@ -58,7 +58,7 @@ PizzaModel.init(
       allowNull: false,
     },
     size: {
-      type: DataTypes.ENUM("SMALL", "MEDIUM", "LARGE"),
+      type: DataTypes.ENUM(size.SMALL, size.MEDIUM, size.LARGE),
       allowNull: false,
     },
     isActive: {
@@ -69,7 +69,7 @@ PizzaModel.init(
   },
   {
     sequelize,
-    tableName: "pizza",
+    tableName: "pizzas",
     timestamps: true,
   }
 );

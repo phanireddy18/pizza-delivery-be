@@ -1,7 +1,7 @@
 import express, { Router } from "express";
-import { AuthController } from "../../controllers/v1/auth.controller";
-import { PizzaController } from "../../controllers/v1/pizza.controller";
+import { PizzaController } from "../../controllers/v1/pizzas.controller";
 import { middleware } from "../../middleware";
+import { OrdersController } from "../../controllers/v1/orders.controller";
 
 class PizzaRoutes {
   private router: Router;
@@ -10,14 +10,24 @@ class PizzaRoutes {
     this.router = express.Router();
   }
   public routes(): Router {
-    // Auth Related APIs
     this.router.use(middleware.checkAuthentication);
+    // Pizza Related APIs
     this.router.get(
       "/pizzas",
 
       PizzaController.getAllPizzas
     );
-    this.router.get("/pizzas/:id", AuthController.login);
+    this.router.get("/pizzas/:id", PizzaController.getPizzaById);
+
+    //Order Related APIs
+    this.router.post("/orders", OrdersController.createOrder);
+
+    this.router.get("/orders/:id", OrdersController.getOrderDetailsByOrderId);
+
+    this.router.get(
+      "/orders/user/:userId",
+      OrdersController.getAllOrdersForUser
+    );
 
     return this.router;
   }

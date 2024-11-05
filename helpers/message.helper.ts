@@ -6,19 +6,22 @@ export default {
   EMAIL_EXISTS: "Invalid credentials. Email or phonenumber already exists.",
   USER_CREATE_SUCCESS: "User created successfully",
 
-  //Forgot_Password
-  NO_EMAIL: "Email is not registered.",
-  EMAIL_FORGOT_PASSWORD_SUCCESS:
-    "Successsfully send reset password email to your email address.",
-  TOKEN_UPDATE_FAILED: "Failed to update token",
-  SENDING_EMAIL_FAILED: "Failed to send email",
-  SERVER_ERROR: "Internal server error!",
-  INVALID_TOKEN: "Token is Invaild or Expired",
-  VALID_TOKEN: "Token is Valid",
-  RESET_PASSWORD_FAILED: "Reset password failed",
-  RESET_PASSWORD_SUCCESS: "Reset password successfully",
+  //Orders
+  CREATE_ORDER_SUCCESS: "Successfully created Order",
+  CREATE_ORDER_FAILED: "Failed to create order",
+  CREATE_ORDER_ERROR:
+    "Error occured while getting list of all available pizzas",
+  GET_ALL_ORDERS_SUCCESS: "Successfully getting orders",
+  GET_ALL_ORDERS_ERROR: "Error occured while getting orders of currentUser",
+  GET_ORDER_DETAILS_BY_ID_SUCCESS: "Successfully getting order details",
+  GET_ORDER_DETAILS_BY_ID_ERROR: "Error occured while getting order details",
 
-  //Gateway_Middleware
-  GATEWAY_ERROR: "Request not coming from api gateway",
-  INVALID_PAYLOAD: "Request payload is invalid",
+  //Pizzas
+  GET_ALL_PIZZAS_SUCCESS: "Successfully getting list of all available pizzas",
+  GET_ALL_PIZZAS_ERROR:
+    "Error occured while getting list of all available pizzas",
+  GET_ALL_PIZZA_DETAILS_BY_ID_SUCCESS: "Successfully getting pizza details",
+  GET_ALL_PIZZA_DETAILS_BY_ID_NOT_FOUND: "Pizza details not found",
+  GET_ALL_PIZZA_DETAILS_BY_ID_ERROR:
+    "Error occured while getting pizza detials",
 };

@@ -10,13 +10,13 @@ export async function createAuthUser(
 ): Promise<IUserDocument | undefined> {
   try {
     const result = await sequelize.query(
-      "select * from sign_up_function(:username,:password,:email,:address);",
+      "select * from sign_up_function(:username,:phoneNumber,:password,:email);",
       {
         replacements: {
           username: data.username,
+          phoneNumber: data.phoneNumber,
           password: data.password,
           email: data.email,
-          address: data.address,
         },
         type: Sequelize.QueryTypes.SELECT,
       }

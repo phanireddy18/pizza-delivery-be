@@ -4,9 +4,10 @@ import { DataTypes, Model, Optional } from "sequelize";
 export interface IUserDocument {
   userId: number;
   username: string;
+  phoneNumber: string;
   email: string;
   password: string;
-  address: string;
+  address?: string;
   isActive?: boolean;
 }
 
@@ -19,9 +20,10 @@ class UserModel
 {
   public userId!: number;
   public username!: string;
+  public phoneNumber!: string;
   public email!: string;
   public password!: string;
-  public address!: string;
+  public address?: string;
   public isActive?: boolean;
 }
 
@@ -37,6 +39,10 @@ UserModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -48,7 +54,7 @@ UserModel.init(
     },
     address: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     isActive: {
       type: DataTypes.BOOLEAN,
@@ -62,4 +68,5 @@ UserModel.init(
     timestamps: true,
   }
 );
+
 export { UserModel };
