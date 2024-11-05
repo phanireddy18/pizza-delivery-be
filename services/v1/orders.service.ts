@@ -7,14 +7,16 @@ import {
 } from "../../models/orders.schema";
 import { PizzaModel } from "../../models/pizzas.schema";
 import * as QUERIES from "../../util/rawQueries";
+import { Transaction } from "sequelize/types";
 
 class OrdersService {
-  // Function to create an order
   async createOrder(
     userId: number,
     pizzaItems: { pizzaId: number; quantity: number }[],
     deliveryAddress: string
   ): Promise<IOrderDocument | undefined> {
+    //Start Transaction
+    const transactionObj: Transaction = await sequelize.transaction();
     try {
       // Fetch the pizzas to calculate total price
       const pizzas = await PizzaModel.findAll({
@@ -28,26 +30,38 @@ class OrdersService {
       }, 0);
 
       // Create the order
-      const order: IOrderDocument = await OrderModel.create({
-        userId,
-        deliveryAddress,
-        totalPrice,
-        status: OrderStatus.PENDING, // Default status
-      });
+      const order: IOrderDocument = await OrderModel.create(
+        {
+          userId,
+          deliveryAddress,
+          totalPrice,
+          status: OrderStatus.PENDING, // Default status
+        },
+        {
+          transaction: transactionObj,
+        }
+      );
 
       // Add pizza items to the order (using the orderId created above)
       const pizzaItemPromises = pizzaItems.map((item) =>
-        OrderPizzaModel.create({
-          orderId: order.orderId,
-          pizzaId: item.pizzaId,
-          quantity: item.quantity,
-        })
+        OrderPizzaModel.create(
+          {
+            orderId: order.orderId,
+            pizzaId: item.pizzaId,
+            quantity: item.quantity,
+          },
+          {
+            transaction: transactionObj,
+          }
+        )
       );
 
       // Wait for all pizza items to be created
       await Promise.all(pizzaItemPromises);
+      await transactionObj.commit();
       return order;
     } catch (error) {
+      await transactionObj.rollback();
       console.error("Error creating order:", error);
     }
   }

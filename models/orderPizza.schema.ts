@@ -26,7 +26,6 @@ OrderPizzaModel.init(
         model: "orders", // This refers to the orders table
         key: "orderId",
       },
-      onDelete: "CASCADE", // If an order is deleted, its pizza items will also be deleted
     },
     pizzaId: {
       type: DataTypes.INTEGER,
@@ -35,7 +34,6 @@ OrderPizzaModel.init(
         model: "pizzas", // This refers to the pizzas table
         key: "pizzaId",
       },
-      onDelete: "CASCADE", // If a pizza is deleted, it will remove references in this table
     },
     quantity: {
       type: DataTypes.INTEGER,
