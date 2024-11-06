@@ -26,6 +26,12 @@ const signupSchema: ObjectSchema = Joi.object({
     "string.email": "Invalid email format",
     "string.empty": "Email is a required field",
   }),
+  address: Joi.string().min(10).max(255).required().messages({
+    "string.base": "Address must be of type string",
+    "string.min": "Address must be at least 10 characters long",
+    "string.max": "Address must be at most 255 characters long",
+    "string.empty": "Address is a required field",
+  }),
 });
 
 export { signupSchema };

@@ -10,6 +10,7 @@ export interface IPizzaDocument {
   pizzaId: number;
   name: string;
   description: string;
+  longDescription: string;
   price: number;
   imageUrl: string;
   size: size;
@@ -26,6 +27,7 @@ class PizzaModel
   public pizzaId!: number;
   public name!: string;
   public description!: string;
+  public longDescription!: string;
   public price!: number;
   public imageUrl!: string;
   public size!: size;
@@ -47,7 +49,10 @@ PizzaModel.init(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    longDescription: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     price: {
       type: DataTypes.DECIMAL,

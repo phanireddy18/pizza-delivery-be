@@ -1,5 +1,5 @@
 import { sequelize } from "../../database";
-import { OrderPizzaModel } from "../../models/orderPizza.schema";
+import { OrderItemsModel } from "../../models/orderItems.schema";
 import {
   IOrderDocument,
   OrderModel,
@@ -44,7 +44,7 @@ class OrdersService {
 
       // Add pizza items to the order (using the orderId created above)
       const pizzaItemPromises = pizzaItems.map((item) =>
-        OrderPizzaModel.create(
+        OrderItemsModel.create(
           {
             orderId: order.orderId,
             pizzaId: item.pizzaId,
@@ -66,15 +66,64 @@ class OrdersService {
     }
   }
 
-  async getAllOrdersForUser(userId: number): Promise<IOrderDocument[]> {
+  async getAllOrdersForUser(userId: number): Promise<any[]> {
     try {
-      // Fetch all orders for the given userId
-      const orders = await OrderModel.findAll({
-        where: { userId },
+      // Execute the raw query to get all orders for the user, with pizza details
+      const [results, metadata]: [any, any] = await sequelize.query(
+        QUERIES.GET_ALL_ORDER_DETAILS_BY_USER_ID,
+        {
+          replacements: {
+            userId,
+          },
+        }
+      );
+
+      // If no results are found, return an empty array
+      if (!results || results.length === 0) {
+        return [];
+      }
+
+      // Structure the results to group pizzas by orderId
+      const ordersMap: { [key: number]: any } = {};
+
+      results.forEach((item: any) => {
+        const {
+          orderId,
+          userId,
+          deliveryAddress,
+          totalPrice,
+          status,
+          pizzaId,
+          pizzaQuantity,
+          pizzaName,
+          pizzaPrice,
+        } = item;
+
+        // If the order is not already in the map, initialize it
+        if (!ordersMap[orderId]) {
+          ordersMap[orderId] = {
+            orderId,
+            userId,
+            deliveryAddress,
+            totalPrice,
+            status,
+            pizzas: [],
+          };
+        }
+
+        // Add the pizza details to the pizzas array for the specific order
+        ordersMap[orderId].pizzas.push({
+          pizzaId,
+          pizzaQuantity,
+          pizzaName,
+          pizzaPrice,
+        });
       });
 
-      // Return the orders or an empty array if no orders are found
-      return orders || [];
+      // Convert the orders map to an array of orders
+      const orders = Object.values(ordersMap);
+
+      return orders;
     } catch (error) {
       console.error("Error fetching orders for user:", error);
       return [];

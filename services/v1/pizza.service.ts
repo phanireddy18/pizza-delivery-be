@@ -8,7 +8,7 @@ class PizzaService {
           isActive: true,
         },
         attributes: {
-          exclude: ["description"], // Exclude the description field
+          exclude: ["longDescription"], // Exclude the description field
         },
       });
 

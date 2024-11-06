@@ -2,12 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import messageHelper from "../../helpers/message.helper";
 import { signupSchema } from "../../schemes/signup";
 import { omit } from "lodash";
-
-import {
-  createAuthUser,
-  getUserByEmail,
-  signToken,
-} from "../../services/v1/auth.service";
+import { authService } from "../../services/v1/auth.service";
 import {
   comparePassword,
   getHashedPassword,
@@ -15,6 +10,9 @@ import {
 import { firstLetterUppercase, lowerCase } from "../../helpers/email.helper";
 import { signinSchema } from "../../schemes/signin";
 import { IUserDocument } from "../../models/users.schema";
+import { Transaction } from "sequelize";
+import { sequelize } from "../../database";
+import { IAddressDocument } from "../../models/address.schema";
 
 interface IAuthDocument {
   userId: number;
@@ -39,10 +37,9 @@ export class AuthController {
           .json({ error: true, message: error.details[0].message });
       }
 
-      const { username, phoneNumber, email, password } = req.body;
-      const checkIfUserExist: IAuthDocument | undefined = await getUserByEmail(
-        email
-      );
+      const { username, phoneNumber, email, password, address } = req.body;
+      const checkIfUserExist: IAuthDocument | undefined =
+        await authService.getUserByEmail(email);
 
       if (checkIfUserExist) {
         return res.status(StatusCodes.BAD_REQUEST).json({
@@ -50,9 +47,7 @@ export class AuthController {
           message: messageHelper.EMAIL_EXISTS,
         });
       }
-
       const hashed_password: any = await getHashedPassword(password);
-
       const authData: IAuthDocument = {
         username: firstLetterUppercase(username),
         email: lowerCase(email),
@@ -60,23 +55,36 @@ export class AuthController {
         phoneNumber,
       } as IAuthDocument;
 
-      const user: IAuthDocument = (await createAuthUser(
-        authData
-      )) as IAuthDocument;
+      //Start Transaction
+      const transactionObj: Transaction = await sequelize.transaction();
+      try {
+        const user: IAuthDocument = (await authService.createAuthUser(
+          authData,
+          transactionObj
+        )) as IAuthDocument;
 
-      const userJWT: string = signToken(
-        user.userId!,
-        user.email!,
-        user.username!
-      );
-      user.token = userJWT;
-      res.status(StatusCodes.CREATED).json({
-        message: messageHelper.USER_CREATE_SUCCESS,
-        error: false,
-        data: user,
-      });
+        await authService.addAddress(user.userId, address, transactionObj);
+
+        const userJWT: string = authService.signToken(
+          user.userId!,
+          user.email!,
+          user.username!,
+          address
+        );
+        user.token = userJWT;
+        await transactionObj.commit();
+        res.status(StatusCodes.CREATED).json({
+          message: messageHelper.USER_CREATE_SUCCESS,
+          error: false,
+          data: user,
+        });
+      } catch (error) {
+        await transactionObj.rollback();
+        throw new Error("Error occured while adding address");
+      }
     } catch (error) {
       console.error("Error in create function:", error);
+      throw new Error("Error occured while adding address");
     }
   }
 
@@ -92,7 +100,8 @@ export class AuthController {
     }
 
     const { email, password } = req.body;
-    const existingUser: IUserDocument | undefined = await getUserByEmail(email);
+    const existingUser: IUserDocument | undefined =
+      await authService.getUserByEmail(email);
     if (!existingUser) {
       return res.status(404).json({
         error: true,
@@ -113,10 +122,14 @@ export class AuthController {
     let userJWT = "";
     let userData: Omit<IAuthDocument, "password"> | null = null;
     let message = messageHelper.LOGIN_SUCCESS;
-    userJWT = signToken(
-      existingUser.userId!,
-      existingUser.email!,
-      existingUser.username!
+    const address: string = await authService.getAddressesByUserId(
+      existingUser.userId
+    );
+    userJWT = authService.signToken(
+      existingUser.userId,
+      existingUser.email,
+      existingUser.username,
+      address
     );
     userData = omit(existingUser, ["password"]);
     userData.token = userJWT;

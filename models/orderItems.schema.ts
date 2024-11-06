@@ -1,14 +1,14 @@
 import { sequelize } from "../database";
 import { DataTypes, Model } from "sequelize";
 
-// The OrderPizza model stores the relationship between Orders and Pizza items
+// The OrderItemsModel model stores the relationship between Orders and Pizza items
 export interface IOrderPizzaDocument {
   orderId: number;
   pizzaId: number;
   quantity: number;
 }
 
-class OrderPizzaModel
+class OrderItemsModel
   extends Model<IOrderPizzaDocument>
   implements IOrderPizzaDocument
 {
@@ -17,7 +17,7 @@ class OrderPizzaModel
   public quantity!: number;
 }
 
-OrderPizzaModel.init(
+OrderItemsModel.init(
   {
     orderId: {
       type: DataTypes.INTEGER,
@@ -46,9 +46,9 @@ OrderPizzaModel.init(
   },
   {
     sequelize,
-    tableName: "order_pizzas",
+    tableName: "order_items",
     timestamps: false, // No timestamps for this join table
   }
 );
 
-export { OrderPizzaModel };
+export { OrderItemsModel };

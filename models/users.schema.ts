@@ -7,7 +7,6 @@ export interface IUserDocument {
   phoneNumber: string;
   email: string;
   password: string;
-  address?: string;
   isActive?: boolean;
 }
 
@@ -23,7 +22,6 @@ class UserModel
   public phoneNumber!: string;
   public email!: string;
   public password!: string;
-  public address?: string;
   public isActive?: boolean;
 }
 
@@ -51,10 +49,6 @@ UserModel.init(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    address: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
     },
     isActive: {
       type: DataTypes.BOOLEAN,
