@@ -10,6 +10,7 @@ class Config {
   public POSTGRESS_DB: string | undefined;
   public POSTGRESS_PWD: string | undefined;
   public POSTGRESS_USER: string | undefined;
+  public SWAGGER_URL: string | undefined;
 
   constructor() {
     this.JWT_SECRET = process.env.JWT_SECRET || "1234";
@@ -19,6 +20,7 @@ class Config {
     this.POSTGRESS_DB = process.env.POSTGRESS_DB || "";
     this.POSTGRESS_PWD = process.env.POSTGRESS_PWD || "";
     this.POSTGRESS_USER = process.env.POSTGRESS_USER || "";
+    this.SWAGGER_URL = process.env.SWAGGER_URL || "";
   }
 }
 

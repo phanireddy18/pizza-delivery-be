@@ -24,6 +24,34 @@ interface IAuthDocument {
   token?: string;
 }
 export class AuthController {
+  /**
+   * @swagger
+   * /api/v1/register:
+   *   post:
+   *     summary: Register a new user
+   *     tags:
+   *       - Authentication
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               username:
+   *                 type: string
+   *               phoneNumber:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *               address:
+   *                 type: string
+   *     responses:
+   *       '200':
+   *         description: User registered successfully
+   */
   public static async create(
     req: Request | any,
     res: Response | any
@@ -86,7 +114,28 @@ export class AuthController {
       throw new Error("Error occured while adding address");
     }
   }
-
+  /**
+   * @swagger
+   * /api/v1/login:
+   *   post:
+   *     summary: Login user
+   *     tags:
+   *       - Authentication
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       '200':
+   *         description: User logged in successfully
+   */
   public static async login(
     req: Request | any,
     res: Response | any

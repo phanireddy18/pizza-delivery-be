@@ -66,7 +66,7 @@ class OrdersService {
     }
   }
 
-  async getAllOrdersForUser(userId: number): Promise<any[]> {
+  async getAllOrdersOfUser(userId: number): Promise<any[]> {
     try {
       // Execute the raw query to get all orders for the user, with pizza details
       const [results, metadata]: [any, any] = await sequelize.query(

@@ -12,5 +12,5 @@
     "skipLibCheck": true
   },
   "include": ["**/*"],
-  "exclude": ["node_modules", "build", "tsconfig.json"]
+  "exclude": ["node_modules", "build", "tsconfig.json", "logs", "pm2"]
 }

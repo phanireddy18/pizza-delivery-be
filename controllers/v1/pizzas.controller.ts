@@ -4,6 +4,17 @@ import { IPizzaDocument } from "../../models/pizzas.schema";
 import { pizzaService } from "../../services/v1/pizza.service";
 
 export class PizzaController {
+  /**
+   * @swagger
+   * /api/v1/pizzas:
+   *   get:
+   *     summary: Get all available pizzas
+   *     tags:
+   *       - Pizzas
+   *     responses:
+   *       '200':
+   *         description: Successfully getting list of all available pizzas
+   */
   public static async getAllPizzas(req: Request | any, res: Response | any) {
     try {
       const allPizzas: IPizzaDocument[] = await pizzaService.getAllPizzas();
@@ -20,7 +31,23 @@ export class PizzaController {
       });
     }
   }
-
+  /**
+   * @swagger
+   * /api/v1/pizzas/{id}:
+   *   get:
+   *     summary: Get pizza details by id
+   *     tags:
+   *       - Pizzas
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: number
+   *     responses:
+   *       '200':
+   *         description: Successfully getting pizza details
+   */
   public static async getPizzaById(req: Request | any, res: Response | any) {
     try {
       const { id } = req.params;

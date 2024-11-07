@@ -5,6 +5,35 @@ import { IOrderDocument } from "../../models/orders.schema";
 import { createOrderSchema } from "../../schemes/order";
 
 export class OrdersController {
+  /**
+   * @swagger
+   * /api/v1/orders:
+   *   post:
+   *     summary: Create new order
+   *     tags:
+   *       - Orders
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               pizzaItems:
+   *                 type: array
+   *                 items:
+   *                    type: object
+   *                    properties:
+   *                      pizzaId:
+   *                        type: number
+   *                      quantity:
+   *                        type: number
+   *               deliveryAddress:
+   *                  type: string
+   *     responses:
+   *       '200':
+   *         description: User registered successfully
+   */
   public static async createOrder(req: Request | any, res: Response | any) {
     const currentUser: number = req.currentUser.userId;
     const { pizzaItems, deliveryAddress } = req.body;
@@ -44,13 +73,29 @@ export class OrdersController {
       });
     }
   }
-
-  public static async getAllOrdersForUser(
+  /**
+   * @swagger
+   * /api/v1/orders/user/{userId}:
+   *   get:
+   *     summary: Get all orders of user
+   *     tags:
+   *       - Orders
+   *     parameters:
+   *       - in: path
+   *         name: userId
+   *         required: true
+   *         schema:
+   *           type: number
+   *     responses:
+   *       '200':
+   *         description: Successfully getting orders
+   */
+  public static async getAllOrdersOfUser(
     req: Request | any,
     res: Response | any
   ) {
     try {
-      const orders = await ordersService.getAllOrdersForUser(req.params.userId);
+      const orders = await ordersService.getAllOrdersOfUser(req.params.userId);
       return res.status(StatusCodes.OK).json({
         error: false,
         message: messageHelper.GET_ALL_ORDERS_SUCCESS,
@@ -63,7 +108,23 @@ export class OrdersController {
       });
     }
   }
-
+  /**
+   * @swagger
+   * /api/v1/orders/{id}:
+   *   get:
+   *     summary: Get order details by orderId
+   *     tags:
+   *       - Orders
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: number
+   *     responses:
+   *       '200':
+   *         description: Successfully getting order details
+   */
   public static async getOrderDetailsByOrderId(
     req: Request | any,
     res: Response | any

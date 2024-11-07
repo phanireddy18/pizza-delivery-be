@@ -22,6 +22,11 @@ class Middleware {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
       return next(new Error("Token is not available. Please login again."));
+      // res.status(StatusCodes.BAD_REQUEST).json({
+      //   error: true,
+      //   message: "Token is not available. Please login again.",
+      // });
+      // return;
     }
     try {
       const payload = verify(token, `${config.JWT_SECRET}`) as JwtPayload;
@@ -29,6 +34,11 @@ class Middleware {
       next();
     } catch (error) {
       next(new Error("Invalid token. Please login again."));
+      // res.status(StatusCodes.UNAUTHORIZED).json({
+      //   error: true,
+      //   message: "Invalid token. Please login again.",
+      // });
+      // return;
     }
   }
 

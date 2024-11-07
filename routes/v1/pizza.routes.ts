@@ -26,7 +26,7 @@ class PizzaRoutes {
 
     this.router.get(
       "/orders/user/:userId",
-      OrdersController.getAllOrdersForUser
+      OrdersController.getAllOrdersOfUser
     );
 
     return this.router;

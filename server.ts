@@ -12,6 +12,8 @@ import cors from "cors";
 import { StatusCodes } from "http-status-codes";
 import { appRoutes } from "./routes/v1/routesv1";
 import { config } from "./config";
+import swaggerSpec from "./util/swagger";
+import swaggerUI from "swagger-ui-express";
 
 const SERVER_PORT = `${config.SERVER_PORT}`;
 export interface IAuthPayload {
@@ -52,6 +54,17 @@ export class MainServer {
   }
 
   private routesMiddleware(app: Application): void {
+    if (process.env.NODE_ENV != "production") {
+      app.use(
+        "/api/v1/docs",
+        swaggerUI.serve,
+        swaggerUI.setup(swaggerSpec, {
+          swaggerOptions: {
+            persistAuthorization: true,
+          },
+        })
+      );
+    }
     appRoutes(app);
   }
 
