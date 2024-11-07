@@ -6,6 +6,8 @@ This application allows users to place pizza orders, manage orders, and retrieve
 
 ## Key Features
 
+- **List of pizzas**: Retrieve a list of all available pizzas.
+- **Pizza details**: Retrieve detailed information about a specific pizza, including its name, price, and description.
 - **Create an order**: Users can place an order with multiple pizzas.
 - **Order details**: Retrieve details of an order, including the pizza names, quantities, and total price.
 - **User-specific orders**: Orders are associated with a specific user and can be fetched by `userId`.
