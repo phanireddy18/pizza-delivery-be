@@ -100,8 +100,3 @@ class AuthService {
 }
 
 export const authService: AuthService = new AuthService();
-
-// const f2 = async () => {
-//   console.log(await authService.getAddressesByUserId(1));
-// };
-// f2();

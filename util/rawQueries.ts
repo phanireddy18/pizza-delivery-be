@@ -13,7 +13,7 @@ export var GET_ALL_ORDER_DETAILS_BY_USER_ID = `  SELECT
         LEFT JOIN order_items op ON o."orderId" = op."orderId"
         LEFT JOIN pizzas p ON op."pizzaId" = p."pizzaId"
         WHERE o."userId" = :userId
-        ORDER BY o."orderId"  DESC;`;
+        ORDER BY o."createdAt" DESC;`;
 
 export var GET_ORDER_DETAILS_BY_ORDER_ID = `  SELECT 
           o."orderId", 
@@ -29,4 +29,4 @@ export var GET_ORDER_DETAILS_BY_ORDER_ID = `  SELECT
         LEFT JOIN order_items op ON o."orderId" = op."orderId"
         LEFT JOIN pizzas p ON op."pizzaId" = p."pizzaId"
         WHERE o."userId" = :userId AND o."orderId" = :orderId
-        ORDER BY o."orderId"  DESC;`;
+        ORDER BY o."createdAt"  DESC;`;

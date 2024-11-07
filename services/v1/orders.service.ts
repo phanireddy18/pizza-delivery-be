@@ -124,8 +124,14 @@ class OrdersService {
 
       // Convert the orders map to an array of orders
       const orders = Object.values(ordersMap);
+      //Sorting the orders in desc
+      const sortedOrders = orders.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
 
-      return orders;
+      return sortedOrders;
     } catch (error) {
       console.error("Error fetching orders for user:", error);
       return [];
