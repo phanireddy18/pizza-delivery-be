@@ -29,9 +29,9 @@ This application allows users to place pizza orders, manage orders, and retrieve
 
 1. Clone the repository:
 
-   ```
-   git clone https://github.com/phanireddy18/pizza-delivery-be.git
-   ```
+```
+git clone https://github.com/phanireddy18/pizza-delivery-be.git
+```
 
 2. Navigate into the project directory:
 
@@ -46,8 +46,8 @@ npm install
 ```
 
 6. Set up the database:
-   - Configure the database connection in database/index.ts (using Sequelize).
-   - Ensure your PostgreSQL (or other database) instance is running.
+   - Configure the database connection in database.ts (using Sequelize).
+   - Ensure your PostgreSQL instance is running.
    - Create the required tables using Sequelize migrations.
 7. Create a `.env` file in the root of the project and set the required environment variables:
 
@@ -73,4 +73,4 @@ docker-compose up --build
 ## Notes
 
 - No toppings: In this version of the application, we do not track toppings. The customization is limited to pizza type and quantity.
-- Transaction Management: All order creation and modifications are wrapped in transactions to ensure atomicity, meaning either all operations succeed or none.
+- Transaction Management: All order creations are wrapped in transactions to ensure atomicity, meaning either all operations succeed or none.
