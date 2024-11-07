@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  pizza-service:
+    container_name: pizza-delivery
+    image: pizza-delivery
+    build:
+      context: .
+    env_file: ".env"
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    expose:
+      - "${SERVER_PORT}"
+    command: "pm2-runtime /app/ecosystem.config.js --name pizza-delivery"
+    volumes:
+      - ./logs:/app/logs
+    networks: # network added
+      - pizza-network
+
+networks:
+  pizza-network:

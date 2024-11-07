@@ -1,6 +1,9 @@
-import dotenv from "dotenv";
-
-dotenv.config({});
+// import dotenv from "dotenv";
+// dotenv.config({});
+var dotenv = require("dotenv");
+var dotenvExpand = require("dotenv-expand");
+var myEnv = dotenv.config();
+dotenvExpand.expand(myEnv);
 
 class Config {
   public JWT_SECRET: string | undefined;
