@@ -4,6 +4,7 @@ export var GET_ALL_ORDER_DETAILS_BY_USER_ID = `  SELECT
           o."deliveryAddress", 
           o."totalPrice", 
           o.status,
+          o."createdAt",
           op."pizzaId", 
           op.quantity as "pizzaQuantity",
           p.name as "pizzaName",

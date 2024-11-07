@@ -93,6 +93,7 @@ class OrdersService {
           deliveryAddress,
           totalPrice,
           status,
+          createdAt,
           pizzaId,
           pizzaQuantity,
           pizzaName,
@@ -107,6 +108,7 @@ class OrdersService {
             deliveryAddress,
             totalPrice,
             status,
+            createdAt,
             pizzas: [],
           };
         }

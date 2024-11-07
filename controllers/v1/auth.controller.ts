@@ -12,7 +12,6 @@ import { signinSchema } from "../../schemes/signin";
 import { IUserDocument } from "../../models/users.schema";
 import { Transaction } from "sequelize";
 import { sequelize } from "../../database";
-import { IAddressDocument } from "../../models/address.schema";
 
 interface IAuthDocument {
   userId: number;
