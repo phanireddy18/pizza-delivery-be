@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { PizzaController } from "../../controllers/v1/pizzas.controller";
 import { middleware } from "../../middleware";
 import { OrdersController } from "../../controllers/v1/orders.controller";
+import { ToppingsController } from "../../controllers/v1/toppings.controller";
 
 class PizzaRoutes {
   private router: Router;
@@ -28,6 +29,9 @@ class PizzaRoutes {
       "/orders/user/:userId",
       OrdersController.getAllOrdersOfUser
     );
+
+    //Toppings Related APIs
+    this.router.get("/toppings", ToppingsController.getToppings);
 
     return this.router;
   }

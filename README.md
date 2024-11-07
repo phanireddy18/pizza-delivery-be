@@ -30,7 +30,7 @@ This application allows users to place pizza orders, manage orders, and retrieve
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/pizza-ordering-service.git
+   git clone https://github.com/phanireddy18/pizza-delivery-be.git
    ```
 
 2. Navigate into the project directory:
