@@ -11,6 +11,7 @@ This application allows users to place pizza orders, manage orders, and retrieve
 - **Create an order**: Users can place an order with multiple pizzas.
 - **Order details**: Retrieve details of an order, including the pizza names, quantities, and total price.
 - **User-specific orders**: Orders are associated with a specific user and can be fetched by `userId`.
+- **Authentication**: JWT-based authentication to secure endpoints.
 
 ## Project Structure
 
@@ -24,7 +25,7 @@ This application allows users to place pizza orders, manage orders, and retrieve
 ### Prerequisites
 
 - Node.js
-- Sequelize (ORM) and PostgreSQL (or another SQL database)
+- Sequelize (ORM) and PostgreSQL
 - npm or yarn
 
 ## Installation Steps
@@ -70,6 +71,25 @@ npm start
 
 ```
 docker-compose up --build
+```
+
+## Authentication
+
+- This API uses **JWT (JSON Web Token)** for user authentication to protect certain endpoints. While **login** and **signup** endpoints do not require a **JWT token** (as they are used to authenticate users and generate the token), **protected endpoints** do require a valid JWT token to access.
+
+## How JWT Authentication Works
+
+1. **Login & Signup (No JWT required)**
+   To authenticate, you first use the login or signup endpoints, which do not require JWT tokens. After successful login, the API will return a JWT token, which you will use to authenticate subsequent requests.
+
+2. **Use the JWT Token for Protected Routes**
+   Once you receive a JWT token from a successful login, include it in the Authorization header when accessing protected API endpoints, such as viewing pizza details or accessing user-specific resources.
+
+Example of how to pass the token:
+
+```
+Authorization: Bearer <your_jwt_token_here>
+
 ```
 
 ## Notes
