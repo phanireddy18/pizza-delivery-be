@@ -92,6 +92,13 @@ Authorization: Bearer <your_jwt_token_here>
 
 ```
 
+## Swagger UI
+
+You can interact with the API using the Swagger UI. To access it, navigate to the following URL:
+`http://localhost:8000/api/v1/docs`
+
+- This will allow you to view and test the available API endpoints.
+
 ## Notes
 
 - No toppings: In this version of the application, we do not track toppings. The customization is limited to pizza type and quantity.

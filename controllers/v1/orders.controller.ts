@@ -94,8 +94,15 @@ export class OrdersController {
     req: Request | any,
     res: Response | any
   ) {
+    const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: true,
+        message: messageHelper.GET_ALL_ORDERS_ERROR_INVALID_ID,
+      });
+    }
     try {
-      const orders = await ordersService.getAllOrdersOfUser(req.params.userId);
+      const orders = await ordersService.getAllOrdersOfUser(userId);
       return res.status(StatusCodes.OK).json({
         error: false,
         message: messageHelper.GET_ALL_ORDERS_SUCCESS,
@@ -131,10 +138,17 @@ export class OrdersController {
   ) {
     const currentUser: number = req.currentUser.userId;
     const { id } = req.params;
+    const orderId: number = parseInt(id);
+    if (isNaN(orderId)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: true,
+        message: messageHelper.GET_ORDER_DETAILS_BY_ID_INVALID_ID,
+      });
+    }
     try {
       const orderDetails = await ordersService.getOrderDetailsByOrderId(
         currentUser,
-        id
+        orderId
       );
       return res.status(StatusCodes.OK).json({
         error: false,

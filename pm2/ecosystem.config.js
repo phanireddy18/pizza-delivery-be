@@ -12,9 +12,6 @@ module.exports = {
       autorestart: true, // Ensure it restarts on failure, not on changes
       instances: 1,
       max_memory_restart: "1G",
-      env: {
-        NODE_ENV: "production",
-      },
     },
   ],
 };

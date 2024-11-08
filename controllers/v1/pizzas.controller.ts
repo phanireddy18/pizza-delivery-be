@@ -51,7 +51,16 @@ export class PizzaController {
   public static async getPizzaById(req: Request | any, res: Response | any) {
     try {
       const { id } = req.params;
-      const pizza: IPizzaDocument | null = await pizzaService.getPizzaById(id);
+      const pizzaId: number = parseInt(id);
+      if (isNaN(pizzaId)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          error: true,
+          message: messageHelper.GET_ALL_PIZZA_DETAILS_BY_ID_INVALID_ID,
+        });
+      }
+      const pizza: IPizzaDocument | null = await pizzaService.getPizzaById(
+        pizzaId
+      );
       if (pizza) {
         return res.status(StatusCodes.OK).json({
           error: false,

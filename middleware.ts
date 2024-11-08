@@ -49,9 +49,14 @@ class Middleware {
     next: NextFunction
   ): void {
     if (!req.currentUser) {
-      return next(
-        new Error("Authentication is required to access this route.")
-      );
+      // return next(
+      //   new Error("Authentication is required to access this route.")
+      // );
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        error: true,
+        message: "Authentication is required to access this route.",
+      });
+      return;
     }
     next();
   }

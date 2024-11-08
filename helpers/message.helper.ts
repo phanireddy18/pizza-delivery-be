@@ -13,8 +13,10 @@ export default {
     "Error occured while getting list of all available pizzas",
   GET_ALL_ORDERS_SUCCESS: "Successfully getting orders",
   GET_ALL_ORDERS_ERROR: "Error occured while getting orders of currentUser",
+  GET_ALL_ORDERS_ERROR_INVALID_ID: "Invalid user ID",
   GET_ORDER_DETAILS_BY_ID_SUCCESS: "Successfully getting order details",
   GET_ORDER_DETAILS_BY_ID_ERROR: "Error occured while getting order details",
+  GET_ORDER_DETAILS_BY_ID_INVALID_ID: "Invalid order ID",
 
   //Pizzas
   GET_ALL_PIZZAS_SUCCESS: "Successfully getting list of all available pizzas",
@@ -24,4 +26,5 @@ export default {
   GET_ALL_PIZZA_DETAILS_BY_ID_NOT_FOUND: "Pizza details not found",
   GET_ALL_PIZZA_DETAILS_BY_ID_ERROR:
     "Error occured while getting pizza detials",
+  GET_ALL_PIZZA_DETAILS_BY_ID_INVALID_ID: "Invalid pizza ID",
 };
